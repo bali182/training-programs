@@ -1,5 +1,12 @@
 @import '../../common.scss';
 
+@media print {
+  .weekTableStyle {
+    margin: 0px !important;
+  }
+}
+
+
 .weekTableStyle {
   display: flex;
   flex-direction: row;
@@ -27,9 +34,4 @@
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: center;
-}
-
-.columnContent {
-  padding: 10px;
-  width: 100%;
 }

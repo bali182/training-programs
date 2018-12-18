@@ -9,7 +9,7 @@ render(
   <div>
     <SmallestPlateQuestion weight={1.25} weightUnit={WeightUnit.KILOGRAMMS} />
     <RepMaxQuestion weight={120} reps={5} exerciseType={ExerciseType.SQUAT} weightUnit={WeightUnit.KILOGRAMMS} />
-    <RepMaxQuestion weight={140} reps={5} exerciseType={ExerciseType.DEADLIFT} weightUnit={WeightUnit.KILOGRAMMS} />
+    <RepMaxQuestion weight={150} reps={5} exerciseType={ExerciseType.DEADLIFT} weightUnit={WeightUnit.KILOGRAMMS} />
     <RepMaxQuestion weight={110} reps={5} exerciseType={ExerciseType.BARBELL_ROW} weightUnit={WeightUnit.KILOGRAMMS} />
     <RepMaxQuestion weight={100} reps={5} exerciseType={ExerciseType.BENCH_PRESS} weightUnit={WeightUnit.KILOGRAMMS} />
     <RepMaxQuestion
@@ -18,7 +18,44 @@ render(
       exerciseType={ExerciseType.OVERHEAD_PRESS}
       weightUnit={WeightUnit.KILOGRAMMS}
     />
-    <WeekTable week={{}} />
+    <WeekTable
+      week={{
+        monday: {
+          exercises: [
+            {
+              type: ExerciseType.BENCH_PRESS,
+              sets: [
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+              ],
+            },
+            {
+              type: ExerciseType.SQUAT,
+              sets: [
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+              ],
+            },
+            {
+              type: ExerciseType.DEADLIFT,
+              sets: [
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
+              ],
+            },
+          ],
+        },
+      }}
+    />
   </div>,
   document.getElementById('root')
 )

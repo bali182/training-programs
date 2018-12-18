@@ -2,35 +2,35 @@
 
 export type NRepMaxCalculator = (oneRepMax: number, reps: number) => number
 
-export function lombardi(oneRepMax: number, reps: number): number {
+function lombardi(oneRepMax: number, reps: number): number {
   return Math.floor(oneRepMax / Math.pow(reps, 1 / 10))
 }
 
-export function brzycki(oneRepMax: number, reps: number): number {
+function brzycki(oneRepMax: number, reps: number): number {
   return Math.floor((oneRepMax * (37 - reps)) / 36)
 }
 
-export function epley(oneRepMax: number, reps: number): number {
+function epley(oneRepMax: number, reps: number): number {
   return Math.floor(oneRepMax / (1 + reps / 30))
 }
 
-export function mayhew(oneRepMax: number, reps: number): number {
+function mayhew(oneRepMax: number, reps: number): number {
   return Math.floor((oneRepMax * (52.2 + 41.9 * Math.exp(-1 * (reps * 0.055)))) / 100)
 }
 
-export function oConner(oneRepMax: number, reps: number): number {
+function oConner(oneRepMax: number, reps: number): number {
   return Math.floor(oneRepMax / (1 + reps * 0.025))
 }
 
-export function wathan(oneRepMax: number, reps: number): number {
+function wathan(oneRepMax: number, reps: number): number {
   return Math.floor((oneRepMax * (48.8 + 53.8 * Math.exp(-1 * (reps * 0.075)))) / 100)
 }
 
-export function lander(oneRepMax: number, reps: number): number {
+function lander(oneRepMax: number, reps: number): number {
   return Math.floor((oneRepMax * (101.3 - 2.67123 * reps)) / 100)
 }
 
-export function average(oneRepMax: number, reps: number): number {
+function average(oneRepMax: number, reps: number): number {
   const maxes = [
     lombardi(oneRepMax, reps),
     brzycki(oneRepMax, reps),

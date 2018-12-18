@@ -5,7 +5,7 @@
   "author": "Édes Balázs <edesbalazs@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.dev.js --display-error-details",
+    "start": "set UV_THREADPOOL_SIZE=100 && webpack-dev-server --config webpack.dev.js --display-error-details",
     "build": "yarn run build-scss && webpack --config webpack.prod.js --display-error-details",
     "build-scss": "tcm --pattern src/**/*.module.scss --camelCase",
     "watch-scss": "tcm --pattern src/**/*.module.scss --camelCase --watch"

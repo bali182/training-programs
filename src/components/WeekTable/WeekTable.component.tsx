@@ -1,5 +1,5 @@
 import React from 'react'
-import { weekTableStyle, columnStyle, columnHeaderStyle, columnContent } from './WeekTable.module.scss'
+import { weekTableStyle, columnStyle, columnHeaderStyle } from './WeekTable.module.scss'
 import { TrainingWeek, TrainingDay } from '../../model/typings'
 import { WeekDay } from './WeekDay/WeekDay.component'
 
@@ -12,9 +12,7 @@ export class WeekTable extends React.PureComponent<WeekTableProps> {
     return (
       <div className={columnStyle}>
         <div className={columnHeaderStyle}>{name}</div>
-        <div className={columnContent}>
-          <WeekDay day={day} />
-        </div>
+        <WeekDay day={day} />
       </div>
     )
   }

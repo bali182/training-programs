@@ -2,7 +2,6 @@ import { ExerciseType, WeightUnit } from '../model/typings'
 
 export const UnusedExerciseColors = [
   '#E09F3E', // lighter orange
-  '#9E2A2B', // lighter red
   '#2F3061', // darker purple
   '#5F5980', // lighter purple
   '#84DD63', // lighter green
@@ -22,7 +21,7 @@ export function getExerciseTypeColor(type: ExerciseType): string {
     case ExerciseType.BARBELL_ROW:
       return '#335C67'
     case ExerciseType.BENCH_PRESS:
-      return '#540B0E'
+      return '#9E2A2B'
     case ExerciseType.DEADLIFT:
       return '#6BAA75'
     case ExerciseType.SQUAT:
