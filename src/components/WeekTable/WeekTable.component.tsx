@@ -1,53 +1,36 @@
 import React from 'react'
-import {
-  weekTableStyle,
-  columnStyle,
-  columnHeaderStyle,
-  activityHeaderStyle,
-  columnContent,
-} from './WeekTable.module.scss'
+import { weekTableStyle, columnStyle, columnHeaderStyle, columnContent } from './WeekTable.module.scss'
+import { TrainingWeek, TrainingDay } from '../../model/typings'
+import { WeekDay } from './WeekDay/WeekDay.component'
 
-export class WeekTable extends React.PureComponent {
-  render() {
-    return (
-      <div className={weekTableStyle}>
-        <WeekDayColumn day="Monday">
-          <WeekdayContent>
-            <div>
-              <div className={activityHeaderStyle}>Bench press</div>
-            </div>
-            <div className={activityHeaderStyle}>Squat</div>
-            <div className={activityHeaderStyle}>Barbell rows</div>
-          </WeekdayContent>
-        </WeekDayColumn>
-        <WeekDayColumn day="Tuesday" />
-        <WeekDayColumn day="Wednesday" />
-        <WeekDayColumn day="Thursday" />
-        <WeekDayColumn day="Friday" />
-      </div>
-    )
-  }
+export type WeekTableProps = {
+  week: TrainingWeek
 }
 
-export type WeekDayColumnProps = {
-  day: string
-}
-
-export class WeekDayColumn extends React.Component<WeekDayColumnProps> {
-  render() {
-    const { day, children } = this.props
+export class WeekTable extends React.PureComponent<WeekTableProps> {
+  renderColumn(day: TrainingDay, name: string) {
     return (
       <div className={columnStyle}>
-        <div className={columnHeaderStyle}>{day}</div>
-        {children}
+        <div className={columnHeaderStyle}>{name}</div>
+        <div className={columnContent}>
+          <WeekDay day={day} />
+        </div>
       </div>
     )
   }
-}
 
-export class WeekdayContent extends React.PureComponent {
   render() {
-    const { children } = this.props
-    return <div className={columnContent}>{children}</div>
+    const { week } = this.props
+    return (
+      <div className={weekTableStyle}>
+        {this.renderColumn(week.monday, 'Monday')}
+        {this.renderColumn(week.tuesday, 'Tuesday')}
+        {this.renderColumn(week.wednesday, 'Wednesday')}
+        {this.renderColumn(week.thursday, 'Thursday')}
+        {this.renderColumn(week.friday, 'Friday')}
+        {week.saturday || week.sunday ? this.renderColumn(week.saturday, 'Saturday') : null}
+        {week.saturday || week.sunday ? this.renderColumn(week.sunday, 'Sunday') : null}
+      </div>
+    )
   }
 }

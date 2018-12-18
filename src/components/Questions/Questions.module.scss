@@ -1,0 +1,27 @@
+$inputBorderColor: #dee2e6;
+$inputFocusedBorderColor: #0366d6;
+
+.questionStyle {
+  margin: 5px 0px;
+}
+
+.inputStyle {
+  outline: none;
+  border-radius: 5px;
+  padding: 3px;
+  font-size: 1em;
+  border-width: 2px;
+  border-style: solid;
+  border-color: $inputBorderColor;
+
+  &:hover {
+    border-color: color($inputBorderColor shade(10%));
+  }
+  &:focus {
+    border-color: $inputFocusedBorderColor;
+  }
+}
+
+.weightStyle {
+  font-weight: 700;
+}

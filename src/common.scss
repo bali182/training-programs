@@ -1,3 +1,6 @@
+$borderColor: #dee2e6;
+$headerColor: #eaedef;
+
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
@@ -22,6 +25,7 @@
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
+  color: #444;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
 
