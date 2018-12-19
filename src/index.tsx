@@ -4,20 +4,12 @@ import { WeekTable } from './components/WeekTable/WeekTable.component'
 import { RepMaxQuestion } from './components/Questions/RepMaxQuestion/RepMaxQuestion.component'
 import { ExerciseType, WeightUnit } from './model/typings'
 import { SmallestPlateQuestion } from './components/Questions/SmallestPlateQuestion/SmallestPlateQuestion.component'
+import { WeightUnitQuestion } from './components/Questions/WeightUnitQuestion/WeightUnitQuestion.component'
+import { Madcow5x5Questions } from './components/CompositeQuestions/Madcow5x5Questions/Madcow5x5Questions.component'
 
 render(
   <div>
-    <SmallestPlateQuestion weight={1.25} weightUnit={WeightUnit.KILOGRAMMS} />
-    <RepMaxQuestion weight={120} reps={5} exerciseType={ExerciseType.SQUAT} weightUnit={WeightUnit.KILOGRAMMS} />
-    <RepMaxQuestion weight={150} reps={5} exerciseType={ExerciseType.DEADLIFT} weightUnit={WeightUnit.KILOGRAMMS} />
-    <RepMaxQuestion weight={110} reps={5} exerciseType={ExerciseType.BARBELL_ROW} weightUnit={WeightUnit.KILOGRAMMS} />
-    <RepMaxQuestion weight={100} reps={5} exerciseType={ExerciseType.BENCH_PRESS} weightUnit={WeightUnit.KILOGRAMMS} />
-    <RepMaxQuestion
-      weight={80}
-      reps={5}
-      exerciseType={ExerciseType.OVERHEAD_PRESS}
-      weightUnit={WeightUnit.KILOGRAMMS}
-    />
+    <Madcow5x5Questions />
     <WeekTable
       week={{
         monday: {

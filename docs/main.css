@@ -45,7 +45,7 @@
   margin: 10px;
   -webkit-box-shadow: 0px 3px 5px -4px rgba(0,0,0,0.2);
           box-shadow: 0px 3px 5px -4px rgba(0,0,0,0.2);
-  border: 1px solid #dee2e6;
+  border: 1px solid #c9cfd6;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -69,7 +69,7 @@
   -webkit-box-flex: 1;
       -ms-flex: 1 1 0px;
           flex: 1 1 0px;
-  border-right: 1px solid #dee2e6
+  border-right: 1px solid #c9cfd6
 }
 
 .columnStyle__oBkkO:last-child {
@@ -77,7 +77,7 @@
   }
 
 .columnHeaderStyle__30DZw {
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #c9cfd6;
   background-color: #eaedef;
   font-weight: 700;
   width: 100%;
@@ -168,7 +168,7 @@
   display: inline-block;
   width: 22px;
   height: 22px;
-  border: 2px solid #dee2e6;
+  border: 2px solid #c9cfd6;
   border-radius: 3px;
   margin: 5px;
 }

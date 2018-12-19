@@ -11,17 +11,17 @@ export type SmallestPlateQuestionProps = {
 
 export class SmallestPlateQuestion extends React.PureComponent<SmallestPlateQuestionProps> {
   onWeightChange = ({ currentTarget: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(value)
-    this.props.onChange(parseInt(value, 10))
+    this.props.onChange(parseFloat(value))
   }
   weightEditor() {
-    const { weight } = this.props
+    const { weight, weightUnit } = this.props
     return (
       <input
         className={inputStyle}
         type="number"
-        min="1"
-        max="1000"
+        min={1}
+        max={50}
+        step={weightUnit === WeightUnit.KILOGRAMMS ? 0.25 : 1}
         value={weight || ''}
         onChange={this.onWeightChange}
         placeholder="weight..."
@@ -43,7 +43,6 @@ export class SmallestPlateQuestion extends React.PureComponent<SmallestPlateQues
     )
   }
   render() {
-    const { weight } = this.props
     return (
       <div className={questionStyle}>
         The smallest plate at my gym is {this.weightEditor()} {this.weightUnit()} meaning {this.doubleWeight()}{' '}
