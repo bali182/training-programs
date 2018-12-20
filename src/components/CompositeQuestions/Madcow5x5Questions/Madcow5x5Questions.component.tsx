@@ -32,18 +32,18 @@ export type Madcow5x5QuestionsProps = {
 export class Madcow5x5Questions extends React.PureComponent<Madcow5x5QuestionsProps, Madcow5x5QuestionsState> {
   state: Madcow5x5QuestionsState = {
     weightUnit: WeightUnit.KILOGRAMMS,
-    smallestPlate: 1.25,
-    squatReps: 8,
-    squatWeight: 80,
-    deadliftReps: 8,
+    rampingPercentage: 12.5,
+    smallestPlate: 2.5,
+    squatReps: 5,
+    squatWeight: 100,
+    deadliftReps: 5,
     deadliftWeight: 100,
     benchReps: 5,
     benchWeight: 100,
     ohpReps: 5,
-    ohpWeight: 60,
-    rowsReps: 8,
-    rowsWeight: 80,
-    rampingPercentage: 12.5,
+    ohpWeight: 100,
+    rowsReps: 5,
+    rowsWeight: 100,
   }
 
   onWeightUnitChange = (weightUnit: WeightUnit) => {

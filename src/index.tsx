@@ -21,7 +21,12 @@ class TestComponent extends React.Component<any, TestComponentState> {
     const program = new Madcow5x5Program(config)
     return range(program.getTotalWeeks())
       .map((week) => program.getTrainingWeek(week))
-      .map((week, index) => <WeekTable week={week} key={index} />)
+      .map((week, index) => (
+        <div>
+          <h1>Week {index + 1}</h1>
+          <WeekTable week={week} key={index} />
+        </div>
+      ))
   }
   saveConfig = (config: Madcow5x5Config) => {
     this.setState({ config })

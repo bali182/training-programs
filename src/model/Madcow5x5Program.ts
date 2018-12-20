@@ -1,5 +1,4 @@
-import { TrainingProgram, TrainingWeek, WeightUnit, TrainingDay, Exercise, ExerciseType, ExerciseSet } from './typings'
-import { roundToSmallestIncrement } from './utils/roundToSmallestIncrement'
+import { TrainingProgram, TrainingWeek, WeightUnit, TrainingDay, Exercise, ExerciseType } from './typings'
 import { range } from './utils/genericUtils'
 import { NRepMax } from './utils/NRepMaxCalculators'
 
@@ -26,31 +25,76 @@ export class Madcow5x5Program implements TrainingProgram<Madcow5x5Config> {
   getMondayTrainingDay(week: number): TrainingDay {
     return {
       exercises: [
-        this.getMondayExercise(ExerciseType.SQUAT, week),
-        this.getMondayExercise(ExerciseType.BENCH_PRESS, week),
-        this.getMondayExercise(ExerciseType.BARBELL_ROW, week),
+        this.getGenericExercise(ExerciseType.SQUAT, week, 5),
+        this.getGenericExercise(ExerciseType.BENCH_PRESS, week, 5),
+        this.getGenericExercise(ExerciseType.BARBELL_ROW, week, 5),
       ],
     }
   }
 
-  getMondayExercise(type: ExerciseType, week: number): Exercise {
+  getWednesdayTrainingDay(week: number): TrainingDay {
+    const { sets: squatSets } = this.getGenericExercise(ExerciseType.SQUAT, week, 5)
+    const [firstSquatSet, secondSquatSet, thirdSquatSet] = squatSets
+    return {
+      exercises: [
+        { type: ExerciseType.SQUAT, sets: [firstSquatSet, secondSquatSet, thirdSquatSet, thirdSquatSet] },
+        this.getGenericExercise(ExerciseType.DEADLIFT, week, 4),
+        this.getGenericExercise(ExerciseType.OVERHEAD_PRESS, week, 4),
+      ],
+    }
+  }
+
+  getFridayTrainingDay(week: number): TrainingDay {
+    return {
+      exercises: [
+        this.getFridayExercise(ExerciseType.SQUAT, week),
+        this.getFridayExercise(ExerciseType.BENCH_PRESS, week),
+        this.getFridayExercise(ExerciseType.BARBELL_ROW, week),
+      ],
+    }
+  }
+
+  getGenericExercise(type: ExerciseType, week: number, sets: number): Exercise {
     const { weightUnit } = this.getConfig()
     const repetitions = 5
     const heaviestLift = this.getHeaviestLift(type, week)
     return {
       type,
+      sets: range(sets)
+        .map((i) => i + 1)
+        .map((set) => ({
+          weightUnit,
+          repetitions,
+          weight: set === sets ? heaviestLift : this.getGenericLift(heaviestLift, sets, set),
+        })),
+    }
+  }
+
+  getFridayExercise(type: ExerciseType, week: number): Exercise {
+    const { weightUnit, smallestIncrement } = this.getConfig()
+    const { sets: mondaySets } = this.getGenericExercise(type, week, 5)
+    const [mondayFirst, mondaySecond, mondayThird, mondayFourth] = mondaySets
+    const startingLift = this.getStartingLift(type)
+    return {
+      type,
       sets: [
-        { weightUnit, repetitions, weight: this.getMondayLift(heaviestLift, 5, 1) },
-        { weightUnit, repetitions, weight: this.getMondayLift(heaviestLift, 5, 2) },
-        { weightUnit, repetitions, weight: this.getMondayLift(heaviestLift, 5, 3) },
-        { weightUnit, repetitions, weight: this.getMondayLift(heaviestLift, 5, 4) },
-        { weightUnit, repetitions, weight: heaviestLift },
+        mondayFirst,
+        mondaySecond,
+        mondayThird,
+        mondayFourth,
+        // ROUND(BBR*(1.025^G9)/(2*PLATE),0)*2*PLATE
+        {
+          repetitions: 3,
+          weightUnit,
+          weight: Math.round((startingLift * Math.pow(1.025, week + 1)) / smallestIncrement) * smallestIncrement,
+        },
+        mondayThird,
       ],
     }
   }
 
   // ROUND(F14*(1-SQINT*4)/(2*PLATE),0)*2*PLATE
-  getMondayLift(heaviestLift: number, numberOfSets: number, set: number): number {
+  getGenericLift(heaviestLift: number, numberOfSets: number, set: number): number {
     const { rampingPercentage, smallestIncrement } = this.getConfig()
     return (
       Math.round((heaviestLift * (1 - rampingPercentage * (numberOfSets - set))) / smallestIncrement) *
@@ -92,6 +136,8 @@ export class Madcow5x5Program implements TrainingProgram<Madcow5x5Config> {
   getTrainingWeek(week: number): TrainingWeek {
     return {
       monday: this.getMondayTrainingDay(week),
+      wednesday: this.getWednesdayTrainingDay(week),
+      friday: this.getFridayTrainingDay(week),
     }
   }
   getConfig(): Madcow5x5Config {
