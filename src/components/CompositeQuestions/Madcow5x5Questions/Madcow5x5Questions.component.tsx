@@ -6,6 +6,8 @@ import { WeightUnit, ExerciseType } from '../../../model/typings'
 import { OneRepMax } from '../../../model/utils/OneRepMaxCalculators'
 import { lbsToKgs, kgsToLbs } from '../../../model/utils/weightConversion'
 import { roundToSmallestIncrement } from '../../../model/utils/roundToSmallestIncrement'
+import { Madcow5x5Config } from '../../../model/Madcow5x5Program'
+import { RampingPercentageQuestion } from '../../Questions/RampingPercentageQuestion/RampingPercentageQuestion.component'
 
 export type Madcow5x5QuestionsState = {
   weightUnit: WeightUnit
@@ -20,20 +22,11 @@ export type Madcow5x5QuestionsState = {
   ohpWeight: number
   deadliftReps: number
   deadliftWeight: number
-}
-
-export type Madcow5x5Output = {
-  weightUnit: WeightUnit
-  smallestIncrement: number
-  squat: number
-  bench: number
-  deadlift: number
-  barbellRow: number
-  ohp: number
+  rampingPercentage: number
 }
 
 export type Madcow5x5QuestionsProps = {
-  onChange?: (output: Madcow5x5Output) => void
+  onChange?: (output: Madcow5x5Config) => void
 }
 
 export class Madcow5x5Questions extends React.PureComponent<Madcow5x5QuestionsProps, Madcow5x5QuestionsState> {
@@ -50,6 +43,7 @@ export class Madcow5x5Questions extends React.PureComponent<Madcow5x5QuestionsPr
     ohpWeight: 60,
     rowsReps: 8,
     rowsWeight: 80,
+    rampingPercentage: 12.5,
   }
 
   onWeightUnitChange = (weightUnit: WeightUnit) => {
@@ -90,24 +84,39 @@ export class Madcow5x5Questions extends React.PureComponent<Madcow5x5QuestionsPr
     this.update({ rowsReps, rowsWeight })
   }
 
+  onRampingPercentageChange = (rampingPercentage: number) => {
+    this.update({ rampingPercentage })
+  }
+
   update(state: Partial<Madcow5x5QuestionsState>) {
+    const { onChange } = this.props
     const newState = { ...this.state, ...state }
-    const smallestIncrement = newState.smallestPlate * 2
     this.setState(newState)
-    this.props.onChange({
+    const smallestIncrement = newState.smallestPlate * 2
+    onChange({
       smallestIncrement,
       weightUnit: newState.weightUnit,
-      barbellRow: roundToSmallestIncrement(
-        OneRepMax.average(newState.rowsWeight, newState.rowsReps),
+      rampingPercentage: newState.rampingPercentage / 100,
+      [ExerciseType.BARBELL_ROW]: roundToSmallestIncrement(
+        OneRepMax.default(newState.rowsWeight, newState.rowsReps),
         smallestIncrement
       ),
-      deadlift: roundToSmallestIncrement(
-        OneRepMax.average(newState.deadliftWeight, newState.deadliftReps),
+      [ExerciseType.DEADLIFT]: roundToSmallestIncrement(
+        OneRepMax.default(newState.deadliftWeight, newState.deadliftReps),
         smallestIncrement
       ),
-      bench: roundToSmallestIncrement(OneRepMax.average(newState.benchWeight, newState.benchReps), smallestIncrement),
-      ohp: roundToSmallestIncrement(OneRepMax.average(newState.ohpWeight, newState.ohpReps), smallestIncrement),
-      squat: roundToSmallestIncrement(OneRepMax.average(newState.squatWeight, newState.squatReps), smallestIncrement),
+      [ExerciseType.BENCH_PRESS]: roundToSmallestIncrement(
+        OneRepMax.default(newState.benchWeight, newState.benchReps),
+        smallestIncrement
+      ),
+      [ExerciseType.OVERHEAD_PRESS]: roundToSmallestIncrement(
+        OneRepMax.default(newState.ohpWeight, newState.ohpReps),
+        smallestIncrement
+      ),
+      [ExerciseType.SQUAT]: roundToSmallestIncrement(
+        OneRepMax.default(newState.squatWeight, newState.squatReps),
+        smallestIncrement
+      ),
     })
   }
 
@@ -120,6 +129,10 @@ export class Madcow5x5Questions extends React.PureComponent<Madcow5x5QuestionsPr
           weight={state.smallestPlate}
           weightUnit={state.weightUnit}
           onChange={this.onSmallestPlateChange}
+        />
+        <RampingPercentageQuestion
+          percentage={this.state.rampingPercentage}
+          onChange={this.onRampingPercentageChange}
         />
         <RepMaxQuestion
           weight={state.squatWeight}
@@ -161,8 +174,6 @@ export class Madcow5x5Questions extends React.PureComponent<Madcow5x5QuestionsPr
   }
 
   static defaultProps: Madcow5x5QuestionsProps = {
-    onChange: (input) => {
-      console.log(input)
-    },
+    onChange: () => {},
   }
 }

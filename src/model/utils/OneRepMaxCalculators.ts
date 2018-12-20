@@ -52,4 +52,5 @@ export const OneRepMax = {
   wathan,
   lander,
   average,
+  default: average,
 }

@@ -12,7 +12,7 @@ export enum WeightUnit {
 }
 
 export type TrainingProgram<Config> = {
-  getTrainingWeekCount(): number
+  getTotalWeeks(): number
   getTrainingWeek(index: number): TrainingWeek
   getConfig(): Config
 }

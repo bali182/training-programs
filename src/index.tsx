@@ -1,53 +1,44 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { WeekTable } from './components/WeekTable/WeekTable.component'
-import { RepMaxQuestion } from './components/Questions/RepMaxQuestion/RepMaxQuestion.component'
-import { ExerciseType, WeightUnit } from './model/typings'
-import { SmallestPlateQuestion } from './components/Questions/SmallestPlateQuestion/SmallestPlateQuestion.component'
-import { WeightUnitQuestion } from './components/Questions/WeightUnitQuestion/WeightUnitQuestion.component'
 import { Madcow5x5Questions } from './components/CompositeQuestions/Madcow5x5Questions/Madcow5x5Questions.component'
+import { Madcow5x5Config, Madcow5x5Program } from './model/Madcow5x5Program'
+import { range } from './model/utils/genericUtils'
+
+type TestComponentState = {
+  config: Madcow5x5Config
+}
+
+class TestComponent extends React.Component<any, TestComponentState> {
+  state: TestComponentState = {
+    config: null,
+  }
+  renderTables() {
+    const { config } = this.state
+    if (!config) {
+      return null
+    }
+    const program = new Madcow5x5Program(config)
+    return range(program.getTotalWeeks())
+      .map((week) => program.getTrainingWeek(week))
+      .map((week, index) => <WeekTable week={week} key={index} />)
+  }
+  saveConfig = (config: Madcow5x5Config) => {
+    this.setState({ config })
+  }
+  render() {
+    return (
+      <React.Fragment>
+        <Madcow5x5Questions onChange={this.saveConfig} />
+        {this.renderTables()}
+      </React.Fragment>
+    )
+  }
+}
 
 render(
   <div>
-    <Madcow5x5Questions />
-    <WeekTable
-      week={{
-        monday: {
-          exercises: [
-            {
-              type: ExerciseType.BENCH_PRESS,
-              sets: [
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-              ],
-            },
-            {
-              type: ExerciseType.SQUAT,
-              sets: [
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-              ],
-            },
-            {
-              type: ExerciseType.DEADLIFT,
-              sets: [
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-                { repetitions: 5, weight: 100, weightUnit: WeightUnit.KILOGRAMMS },
-              ],
-            },
-          ],
-        },
-      }}
-    />
+    <TestComponent />
   </div>,
   document.getElementById('root')
 )

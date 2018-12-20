@@ -52,4 +52,5 @@ export const NRepMax = {
   wathan,
   lander,
   average,
+  default: average,
 }
